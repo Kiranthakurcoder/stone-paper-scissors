@@ -39,7 +39,7 @@ h1 {
 }
 
 .choice:hover {
-  box-shadow: 0 0 15px #dd07f5;
+ box-shadow: 1px 1px 19px 17px #dd07f5;
   background-color: brown;
   cursor: pointer;
 }
@@ -89,6 +89,6 @@ img {
 
 #reset-btn:hover {
   cursor: pointer;
-  background-color: greenyellow;
-  color: #dd07f5;
+background-color: red;
+  color: black;
 }
