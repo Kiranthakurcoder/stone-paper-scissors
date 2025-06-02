@@ -1,102 +1,93 @@
-let userscore=0;
-let compscore=0;
-let drwaasocore=0;
+
+// Rock Paper And scissors
+
+let userScore = 0;
+let compScore = 0;
+let drawScore = 0;
 
 const choices = document.querySelectorAll(".choice");
 const msg = document.querySelector("#msg");
-const userscorepara = document.querySelector("#user-score");
-const compscorepara = document.querySelector("#comp-score");
-const drwaascorepara = document.querySelector("#draw-score");
+const userScorePara = document.querySelector("#user-score");
+const compScorePara = document.querySelector("#comp-score");
+const drawScorePara = document.querySelector("#draw-score");
 const resetButton = document.querySelector("#reset-btn");
 
+//  Reset the Game
 const resetGame = () => {
-    userscore = 0;
-    compscore = 0;
-    drwaasocore = 0;
+    userScore = 0;
+    compScore = 0;
+    drawScore = 0;
 
-    userscorepara.innerText = userscore;
-    compscorepara.innerText = compscore;
-    drwaascorepara.innerText = drwaasocore;
-    msg.innerText = "Game Reset! Start Again"; // Clear the message or show reset message
-
-    console.log("Game has been reset");
+    userScorePara.innerText = userScore;
+    compScorePara.innerText = compScore;
+    drawScorePara.innerText = drawScore;
+    msg.innerText = "Game Reset! Start Again";
 };
 
 resetButton.addEventListener("click", resetGame);
 
-
-const soundEfect = ()=>{
-    const sound = document.querySelector("#sound-effect")
+//  Play Sound Effect
+const playSoundEffect = () => {
+    const sound = document.querySelector("#sound-effect");
     sound.currentTime = 0;
-    sound.play()
+    sound.play();
+};
 
-}
-
-const showwinner=(userwin,userchoice,computerchoice)=>{
-    if(userwin){
-       userscore++;
-       userscorepara.innerText=userscore;
-        console.log("you win")
-        msg.innerText=`You Win!! You ${userchoice} bets ${computerchoice}`
-
-
-    }else
-    {
-        compscore++;
-        compscorepara.innerText=compscore;
-        console.log("you lose")
-        msg.innerText=`You Loss ${computerchoice} bets ${userchoice}`
-    };
-}
-
-
-
-const drwaa=()=>{
-    drwaasocore++;
-    drwaascorepara.innerText=drwaasocore;
-
-    console.log("the is game drwaa")
-    msg.innerText="Game Is Draw"
-}
-
-
-
-
-const gencompchoice = () =>{
-    const options=["rock","paper","scissors"];
-    const randidx = Math.floor(Math.random() *3 );
-    return options[randidx];
-
-}
-
-
-const playgame = (userchoice) =>{
-    console.log("user coice val=",userchoice)
-    const computerchoice= gencompchoice();
-    console.log("computer choice=", computerchoice);
-
-    if(userchoice === computerchoice){
-        drwaa();
-    }else{
-        let userwin = true;
-        if(userchoice === "rock"){
-            userwin = computerchoice === "paper" ? false:true;
-        }else if(userchoice === "paper"){
-            userwin = computerchoice === "scissors" ? false:true;
-        }else{
-            userwin = computerchoice === "rock" ? false:true;
-        }
-        showwinner(userwin,userchoice,computerchoice)
+// Show Winner Result
+const showWinner = (userWon, userChoice, computerChoice) => {
+    if (userWon) {
+        userScore++;
+        userScorePara.innerText = userScore;
+        msg.innerText = `You Win!! ${userChoice} beats ${computerChoice}`;
+        console.log("You win");
+    } else {
+        compScore++;
+        compScorePara.innerText = compScore;
+        msg.innerText = `You Lose! ${computerChoice} beats ${userChoice}`;
+        console.log("You lose");
     }
-}
+};
 
+//  Handle Draw
+const handleDraw = () => {
+    drawScore++;
+    drawScorePara.innerText = drawScore;
+    msg.innerText = "Game is a Draw!";
+    console.log("The game is a draw");
+};
+
+//  Generate Computer's Choice
+const generateCompChoice = () => {
+    const options = ["rock", "paper", "scissors"];
+    const randIndex = Math.floor(Math.random() * 3);
+    return options[randIndex];
+};
+
+//  Play Game Function
+const playGame = (userChoice) => {
+    const computerChoice = generateCompChoice();
+    if (userChoice === computerChoice) {
+        handleDraw();
+    } else {
+        let userWon = true;
+
+        if (userChoice === "rock") {
+            userWon = computerChoice === "paper" ? false : true;
+        } else if (userChoice === "paper") {
+            userWon = computerChoice === "scissors" ? false : true;
+        } else {
+            userWon = computerChoice === "rock" ? false : true;
+        }
+
+        showWinner(userWon, userChoice, computerChoice);
+    }
+};
+
+//  Add Event Listeners to All Choices
 choices.forEach((choice) => {
-choice.addEventListener( "click", () => {
-    soundEfect()
-const userchoice=choice.getAttribute("id")
-playgame(userchoice);
-
-})
-
-
-})
+    choice.addEventListener("click", () => {
+        playSoundEffect();
+        const userChoice = choice.getAttribute("id");
+        playGame(userChoice);
+    });
+});
